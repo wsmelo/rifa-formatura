@@ -8,6 +8,8 @@ import {
   formatAdminNumber,
   formatAdminPhone,
   getAdminStatus,
+  isAdminPasswordSetupHash,
+  validateAdminPassword,
 } from "./admin-utils.js";
 import "./admin.css";
 
@@ -18,6 +20,7 @@ const state = {
   loading: false,
   pendingAction: null,
   sessionUserId: null,
+  passwordSetupRequired: isAdminPasswordSetupHash(window.location.hash),
 };
 
 let supabase;
@@ -67,6 +70,29 @@ function renderShell() {
     '        <div class="login-poster" aria-hidden="true">',
     '          <img src="./assets/formatura-da-mara.jpeg" alt="">',
     '          <div><strong>Organização da rifa</strong><span>Controle seguro e sincronizado.</span></div>',
+    '        </div>',
+    '      </div>',
+    '    </section>',
+    '    <section class="admin-login" id="password-setup-view" hidden>',
+    '      <div class="login-layout">',
+    '        <div class="login-panel">',
+    '          <div class="login-heading">',
+    '            <h1>Crie sua senha de acesso</h1>',
+    '            <p>Escolha uma senha segura para entrar no painel administrativo em qualquer celular ou computador.</p>',
+    '          </div>',
+    '          <form id="password-setup-form" novalidate>',
+    '            <label for="new-admin-password">Nova senha</label>',
+    '            <input id="new-admin-password" name="new-password" type="password" autocomplete="new-password" placeholder="Mínimo de 8 caracteres" minlength="8" required>',
+    '            <label for="confirm-admin-password">Confirmar senha</label>',
+    '            <input id="confirm-admin-password" name="confirm-password" type="password" autocomplete="new-password" placeholder="Digite a senha novamente" minlength="8" required>',
+    '            <p class="admin-form-error" id="password-setup-error" role="alert"></p>',
+    '            <button class="admin-primary-button login-button" id="password-setup-button" type="submit">Salvar senha e abrir painel</button>',
+    '          </form>',
+    '          <p class="login-security"><span aria-hidden="true">●</span> Sua senha é salva diretamente pelo Supabase.</p>',
+    '        </div>',
+    '        <div class="login-poster" aria-hidden="true">',
+    '          <img src="./assets/formatura-da-mara.jpeg" alt="">',
+    '          <div><strong>Seu painel está pronto</strong><span>Falta apenas criar sua senha.</span></div>',
     '        </div>',
     '      </div>',
     '    </section>',
@@ -157,7 +183,9 @@ function renderShell() {
     '<div class="admin-toast" id="admin-toast" role="status" aria-live="polite"></div>',
   ].join("");
 
-  document.querySelector(".login-poster img").src = posterUrl;
+  document.querySelectorAll(".login-poster img").forEach(function (image) {
+    image.src = posterUrl;
+  });
 
   elements = {
     account: document.querySelector("#admin-account"),
@@ -168,6 +196,12 @@ function renderShell() {
     password: document.querySelector("#admin-password"),
     loginButton: document.querySelector("#login-button"),
     loginError: document.querySelector("#login-error"),
+    passwordSetupView: document.querySelector("#password-setup-view"),
+    passwordSetupForm: document.querySelector("#password-setup-form"),
+    newPassword: document.querySelector("#new-admin-password"),
+    confirmPassword: document.querySelector("#confirm-admin-password"),
+    passwordSetupError: document.querySelector("#password-setup-error"),
+    passwordSetupButton: document.querySelector("#password-setup-button"),
     logout: document.querySelector("#logout-button"),
     accessDenied: document.querySelector("#access-denied"),
     deniedLogout: document.querySelector("#denied-logout-button"),
@@ -224,6 +258,9 @@ function readableAdminError(error) {
   if (normalized.includes("email not confirmed")) {
     return "Este e-mail ainda não foi confirmado no Supabase.";
   }
+  if (normalized.includes("password") && normalized.includes("characters")) {
+    return "A senha não atende aos requisitos de segurança do Supabase.";
+  }
   if (normalized.includes("admin access required") || error?.code === "42501") {
     return "Esta conta ainda não foi autorizada como administradora.";
   }
@@ -246,9 +283,10 @@ function isAccessDeniedError(error) {
 
 function setView(view) {
   elements.loginView.hidden = view !== "login";
+  elements.passwordSetupView.hidden = view !== "password-setup";
   elements.accessDenied.hidden = view !== "denied";
   elements.dashboard.hidden = view !== "dashboard";
-  elements.account.hidden = view === "login";
+  elements.account.hidden = view === "login" || view === "password-setup";
 }
 
 function showToast(message) {
@@ -374,11 +412,54 @@ async function applySession(session) {
   }
 
   elements.accountEmail.textContent = session.user.email || "Conta administrativa";
+  if (state.passwordSetupRequired) {
+    setView("password-setup");
+    return;
+  }
   setView("dashboard");
   const isNewUser = state.sessionUserId !== session.user.id;
   state.sessionUserId = session.user.id;
   if (isNewUser || state.rows.length === 0) {
     await loadDashboard({ quiet: true });
+  }
+}
+
+async function handlePasswordSetup(event) {
+  event.preventDefault();
+  elements.passwordSetupError.textContent = "";
+  const password = elements.newPassword.value;
+  const confirmation = elements.confirmPassword.value;
+  const validationError = validateAdminPassword(password, confirmation);
+  if (validationError) {
+    elements.passwordSetupError.textContent = validationError;
+    return;
+  }
+
+  elements.passwordSetupButton.disabled = true;
+  elements.passwordSetupButton.textContent = "Salvando...";
+  try {
+    const response = await supabase.auth.updateUser({ password });
+    if (response.error) throw response.error;
+    state.passwordSetupRequired = false;
+    elements.newPassword.value = "";
+    elements.confirmPassword.value = "";
+    window.history.replaceState(
+      null,
+      "",
+      window.location.pathname + window.location.search + "#admin",
+    );
+    const sessionResponse = await supabase.auth.getSession();
+    if (sessionResponse.error) throw sessionResponse.error;
+    if (!sessionResponse.data.session) {
+      throw new Error("Sessão do convite não encontrada. Abra novamente o link recebido.");
+    }
+    await applySession(sessionResponse.data.session);
+    showToast("Senha criada com sucesso.");
+  } catch (error) {
+    elements.passwordSetupError.textContent = readableAdminError(error);
+  } finally {
+    elements.passwordSetupButton.disabled = false;
+    elements.passwordSetupButton.textContent = "Salvar senha e abrir painel";
   }
 }
 
@@ -540,6 +621,7 @@ async function handleAction(event) {
 
 function bindEvents() {
   elements.loginForm.addEventListener("submit", handleLogin);
+  elements.passwordSetupForm.addEventListener("submit", handlePasswordSetup);
   elements.logout.addEventListener("click", handleLogout);
   elements.deniedLogout.addEventListener("click", handleLogout);
   elements.refresh.addEventListener("click", function () {

@@ -146,12 +146,14 @@
   line-height: 1.7;
 }
 
-#login-form {
+#login-form,
+#password-setup-form {
   display: grid;
   margin-top: 36px;
 }
 
 #login-form label,
+#password-setup-form label,
 .manual-buyer-fields label {
   margin: 0 0 8px;
   color: var(--ink);
@@ -159,11 +161,13 @@
   font-weight: 750;
 }
 
-#login-form label:not(:first-child) {
+#login-form label:not(:first-child),
+#password-setup-form label:not(:first-child) {
   margin-top: 18px;
 }
 
 #login-form input,
+#password-setup-form input,
 .manual-buyer-fields input {
   width: 100%;
   min-height: 52px;
@@ -178,6 +182,7 @@
 }
 
 #login-form input:focus,
+#password-setup-form input:focus,
 .manual-buyer-fields input:focus,
 .admin-search input:focus,
 .admin-filter select:focus {

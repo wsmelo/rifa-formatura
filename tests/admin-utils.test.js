@@ -6,6 +6,9 @@ import {
   formatAdminNumber,
   formatAdminPhone,
   getAdminStatus,
+  isAdminPasswordSetupHash,
+  isAdminRouteHash,
+  validateAdminPassword,
 } from "../admin-utils.js";
 
 const rows = [
@@ -36,4 +39,23 @@ test("formata número, telefone e rótulo de status", () => {
   assert.equal(formatAdminNumber(100), "100");
   assert.equal(formatAdminPhone("27996039705"), "(27) 99603-9705");
   assert.equal(getAdminStatus("payment_reported").label, "Pix informado");
+});
+
+test("reconhece o painel e links de convite do Supabase", () => {
+  assert.equal(isAdminRouteHash("#admin"), true);
+  assert.equal(isAdminRouteHash("#access_token=abc&type=invite"), true);
+  assert.equal(isAdminPasswordSetupHash("#access_token=abc&type=recovery"), true);
+  assert.equal(isAdminRouteHash("#numeros"), false);
+});
+
+test("valida a criação da senha administrativa", () => {
+  assert.equal(
+    validateAdminPassword("1234567", "1234567"),
+    "A senha precisa ter pelo menos 8 caracteres.",
+  );
+  assert.equal(
+    validateAdminPassword("segura123", "diferente"),
+    "As senhas digitadas precisam ser iguais.",
+  );
+  assert.equal(validateAdminPassword("segura123", "segura123"), "");
 });

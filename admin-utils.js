@@ -69,3 +69,22 @@ export function filterAdminRows(rows, { query = "", status = "all" } = {}) {
     );
   });
 }
+
+export function isAdminPasswordSetupHash(hash) {
+  const params = new URLSearchParams(String(hash || "").replace(/^#/, ""));
+  return ["invite", "recovery"].includes(params.get("type"));
+}
+
+export function isAdminRouteHash(hash) {
+  return String(hash || "") === "#admin" || isAdminPasswordSetupHash(hash);
+}
+
+export function validateAdminPassword(password, confirmation) {
+  if (String(password).length < 8) {
+    return "A senha precisa ter pelo menos 8 caracteres.";
+  }
+  if (password !== confirmation) {
+    return "As senhas digitadas precisam ser iguais.";
+  }
+  return "";
+}
