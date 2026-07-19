@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Escolha seus números e participe da Rifa da Formatura. Cada número custa R$ 10,00." />
+    <meta name="theme-color" content="#845c5b" />
+    <title>Rifa da Formatura</title>
+    <script type="module" src="./main.js"></script>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#numeros">Ir para os números</a>
+
+    <header class="site-header">
+      <div class="header-inner page-width">
+        <a class="brand" href="#inicio" aria-label="Rifa da Formatura — início">
+          <svg aria-hidden="true" viewBox="0 0 48 48">
+            <path d="m4 18 20-10 20 10-20 10L4 18Z" />
+            <path d="M12 23v10c6 6 18 6 24 0V23" />
+            <path d="M42 20v12" />
+          </svg>
+          <span>Rifa da<br /><strong>Formatura</strong></span>
+        </a>
+        <nav aria-label="Navegação principal">
+          <a href="#premios">Prêmios</a>
+          <a href="#numeros">Números</a>
+          <a class="nav-cta" href="#numeros">Quero participar</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="inicio">
+        <div class="hero-decoration hero-decoration-one" aria-hidden="true"></div>
+        <div class="hero-decoration hero-decoration-two" aria-hidden="true"></div>
+        <div class="hero-inner page-width">
+          <div class="hero-copy">
+            <h1>Quatro amigas,<br />um sonho, <em>muitas conquistas.</em></h1>
+            <p>Sua participação faz toda a diferença para realizarmos esse sonho tão especial. Escolha seus números e boa sorte!</p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#numeros">Escolher meus números</a>
+              <span class="price-note"><strong>R$ 10,00</strong> por número</span>
+            </div>
+            <div class="event-details" aria-label="Informações da rifa">
+              <div>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M8 2v4m8-4v4M3 9h18M5 4h14a2 2 0 0 1 2 2v14H3V6a2 2 0 0 1 2-2Z" /></svg>
+                <span>Sorteio<br /><strong>23/12/2026</strong></span>
+              </div>
+              <div>
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9L12 3Z" /></svg>
+                <span>Transmissão<br /><strong>ao vivo nas redes</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <figure class="poster-wrap">
+            <div class="poster-frame">
+              <img src="./assets/formatura-da-mara.jpeg" alt="Cartaz da Rifa da Formatura com os prêmios e a tabela de números" />
+            </div>
+            <figcaption>Seu apoio, nossa conquista.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="prizes" id="premios" aria-labelledby="premios-title">
+        <div class="page-width">
+          <div class="section-heading section-heading-light">
+            <span aria-hidden="true"></span>
+            <div>
+              <p>Dois prêmios especiais</p>
+              <h2 id="premios-title">Participe e concorra</h2>
+            </div>
+          </div>
+          <div class="prize-list">
+            <article class="prize-item">
+              <div class="prize-number">1º</div>
+              <div>
+                <p>Primeiro prêmio</p>
+                <h3>10 litros de açaí</h3>
+                <span>Para compartilhar e comemorar em grande estilo.</span>
+              </div>
+              <svg aria-hidden="true" viewBox="0 0 48 48"><path d="M9 19h30l-3 19H12L9 19Zm5-7h20M17 7h14M7 19h34" /></svg>
+            </article>
+            <article class="prize-item">
+              <div class="prize-number">2º</div>
+              <div>
+                <p>Segundo prêmio</p>
+                <h3>Cesta Natura e O Boticário</h3>
+                <span>Uma seleção especial de produtos de beleza e cuidados.</span>
+              </div>
+              <svg aria-hidden="true" viewBox="0 0 48 48"><path d="M7 20h34l-4 21H11L7 20Zm8 0c0-7 4-12 9-12s9 5 9 12M24 8V4" /></svg>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="number-section" id="numeros" aria-labelledby="numeros-title">
+        <div class="page-width">
+          <div class="section-heading">
+            <span aria-hidden="true"></span>
+            <div>
+              <p>Agora é só escolher</p>
+              <h2 id="numeros-title">Qual vai ser o seu número da sorte?</h2>
+              <span class="section-support">Você pode selecionar vários números. O valor é calculado automaticamente.</span>
+            </div>
+          </div>
+
+          <div class="demo-notice" id="demo-notice" hidden>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 9v4m0 4h.01M10.3 3.7 2.6 17a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.7a2 2 0 0 0-3.4 0Z" /></svg>
+            <div>
+              <strong>Modo de demonstração</strong>
+              <span>As reservas ficam salvas neste navegador. Configure o Supabase para sincronizar entre celulares.</span>
+            </div>
+          </div>
+
+          <div class="selection-layout">
+            <div class="number-picker" aria-busy="true">
+              <div class="picker-toolbar">
+                <div class="availability" aria-live="polite">
+                  <span><i class="status-dot available-dot"></i><strong id="available-count">—</strong> disponíveis</span>
+                  <span><i class="status-dot reserved-dot"></i><strong id="reserved-count">—</strong> reservados</span>
+                </div>
+                <button class="text-button" id="clear-selection" type="button" disabled>Limpar seleção</button>
+              </div>
+              <div class="number-grid" id="number-grid" aria-label="Números disponíveis da rifa"></div>
+              <div class="legend" aria-label="Legenda">
+                <span><i class="legend-box"></i>Disponível</span>
+                <span><i class="legend-box selected-box"></i>Selecionado</span>
+                <span><i class="legend-box reserved-box"></i>Reservado</span>
+              </div>
+              <p class="picker-error" id="picker-error" role="alert"></p>
+            </div>
+
+            <aside class="checkout-card" aria-labelledby="checkout-title">
+              <div class="checkout-heading">
+                <p>Resumo da sua escolha</p>
+                <h3 id="checkout-title"><span id="selected-count">0</span> número(s)</h3>
+              </div>
+              <div class="chosen-numbers" id="chosen-numbers">
+                <span class="empty-choice">Seus números aparecerão aqui</span>
+              </div>
+              <div class="total-row">
+                <span>Total</span>
+                <strong id="checkout-total">R$ 0,00</strong>
+              </div>
+              <form id="checkout-form" novalidate>
+                <label for="buyer-name">Seu nome</label>
+                <input id="buyer-name" name="name" type="text" autocomplete="name" placeholder="Digite seu nome completo" minlength="3" maxlength="80" required />
+                <span class="field-error" id="name-error"></span>
+                <label for="buyer-phone">WhatsApp</label>
+                <input id="buyer-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required />
+                <span class="field-error" id="phone-error"></span>
+                <button class="button button-primary pay-button" id="pay-button" type="submit" disabled>
+                  <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m8.5 5.5 3.5-3.5 3.5 3.5L12 9 8.5 5.5ZM5.5 8.5 9 12l-3.5 3.5L2 12l3.5-3.5Zm13 0L22 12l-3.5 3.5L15 12l3.5-3.5ZM8.5 18.5 12 15l3.5 3.5L12 22l-3.5-3.5Z" /></svg>
+                  <span>Pagar com Pix</span>
+                </button>
+              </form>
+              <p class="secure-note">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 10V7a6 6 0 0 1 12 0v3m2 0H4v11h16V10Z" /></svg>
+                Seus números ficam reservados por 30 minutos.
+              </p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="how-it-works" aria-labelledby="como-title">
+        <div class="page-width">
+          <h2 id="como-title">É simples participar</h2>
+          <ol>
+            <li><span>1</span><strong>Escolha</strong><p>Selecione um ou mais números disponíveis.</p></li>
+            <li><span>2</span><strong>Reserve</strong><p>Preencha seu nome e WhatsApp.</p></li>
+            <li><span>3</span><strong>Pague</strong><p>Faça o Pix no valor calculado.</p></li>
+          </ol>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="page-width">
+        <div class="footer-brand">Rifa da <strong>Formatura</strong></div>
+        <p>Obrigada por fazer parte dessa conquista.</p>
+        <a href="#inicio">Voltar ao início ↑</a>
+      </div>
+    </footer>
+
+    <div class="mobile-selection" id="mobile-selection" hidden>
+      <div><span id="mobile-count">0 números</span><strong id="mobile-total">R$ 0,00</strong></div>
+      <button type="button" id="mobile-continue">Continuar</button>
+    </div>
+
+    <dialog class="payment-dialog" id="payment-dialog" aria-labelledby="payment-title">
+      <div class="dialog-shell">
+        <button class="dialog-close" id="dialog-close" type="button" aria-label="Fechar janela">×</button>
+        <div class="dialog-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="m8.5 5.5 3.5-3.5 3.5 3.5L12 9 8.5 5.5ZM5.5 8.5 9 12l-3.5 3.5L2 12l3.5-3.5Zm13 0L22 12l-3.5 3.5L15 12l3.5-3.5ZM8.5 18.5 12 15l3.5 3.5L12 22l-3.5-3.5Z" /></svg>
+        </div>
+        <p class="dialog-kicker">Reserva realizada</p>
+        <h2 id="payment-title">Agora faça o pagamento</h2>
+        <p class="dialog-intro">Use os dados abaixo para fazer o Pix. Seus números já estão reservados.</p>
+        <div class="pix-pending" id="pix-pending" hidden>A chave Pix ainda precisa ser cadastrada pela organizadora.</div>
+        <div class="payment-total">
+          <span>Valor do Pix</span>
+          <strong id="modal-total">R$ 0,00</strong>
+        </div>
+        <div class="payment-field">
+          <span>Chave Pix</span>
+          <div><strong id="modal-pix-key"></strong><button id="copy-pix" type="button">Copiar</button></div>
+        </div>
+        <div class="payment-field">
+          <span>Números reservados</span>
+          <div><strong id="modal-numbers"></strong><button id="copy-summary" type="button">Copiar resumo</button></div>
+        </div>
+        <div class="reservation-timer">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 7v5l3 2M9 2h6M12 4a9 9 0 1 1-9 9" /></svg>
+          <span>Reserva válida por <strong id="countdown">30:00</strong></span>
+        </div>
+        <button class="button button-primary confirm-payment" id="confirm-payment" type="button">Já fiz o Pix</button>
+        <p class="dialog-help">Depois, a organização confere o pagamento e confirma seus números.</p>
+        <div class="payment-success" id="payment-success" hidden>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" /></svg>
+          <div><strong>Pagamento informado!</strong><span>A organização fará a conferência pelo seu WhatsApp.</span></div>
+        </div>
+      </div>
+    </dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
