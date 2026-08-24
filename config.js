@@ -9,8 +9,8 @@ export const RAFFLE_CONFIG = Object.freeze({
   maxNumber: 100,
   maxSelection: 20,
   preSoldNumbers: [7, 13, 18, 27, 43, 49],
-  supabaseUrl: import.meta.env.VITE_RIFA_SUPABASE_URL?.trim() || "",
-  supabaseAnonKey: import.meta.env.VITE_RIFA_SUPABASE_ANON_KEY?.trim() || "",
+  supabaseUrl: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtjcHRmdmd2cG9naGdka2NveWthIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc2MDQxNjcsImV4cCI6MjEwMzE4MDE2N30.-iF4Byi9YdmWGGDoaCC0zEqy8FJLXNqMX-9PaBzyTTk"",
+  supabaseAnonKey: https://kcptfvgvpoghgdkcoyka.supabase.co/rest/v1/ "",
 });
 
 export function hasConfiguredPixKey() {
